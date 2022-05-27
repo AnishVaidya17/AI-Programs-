@@ -1,0 +1,69 @@
+male(donald).
+male(regan).
+male(john).
+male(newton).
+male(regan).
+male(harry).
+male(william).
+
+female(aniya).
+female(roshi).
+female(andriya).
+female(melania).
+female(aniya).
+
+parent_of(donald,melania).
+parent_of(aniya,melania).
+parent_of(donald,andriya).
+parent_of(aniya,andriya).
+
+parent_of(regan,newton).
+parent_of(roshi,newton).
+
+parent_of(john,harry).
+parent_of(melania,harry).
+
+parent_of(newton,william).
+parent_of(andriya,william).
+
+%to check if father
+father_of(X,Y):- male(X),parent_of(X,Y).
+%to check if mother
+mother_of(X,Y):- female(X),parent_of(X,Y).
+%to check if grandfather
+grandfather_of(X,Y):-parent_of(Z,Y),father_of(X,Z),male(X).
+%to check for grandmother
+grandmother_of(X,Y):-parent_of(Z,Y),mother_of(X,Z),female(X).
+
+%check for sister
+sister_of(X,Y):-father_of(F,X),father_of(F,Y),mother_of(M,X),mother_of(M,Y),not(F=M),female(X).
+
+%check for brother
+brother_of(X,Y):-father_of(F,X),father_of(F,Y),mother_of(M,X),mother_of(M,Y),not(F=M),male(X).
+
+%check for aunt
+aunt_of(X,Y):-parent_of(Z,Y),sister_of(X,Z).
+%check for uncle
+uncle_of(X,Y):-parent_of(Z,Y),brother_of(X,Z).
+
+%grandparents
+grandparent_of(X,Y):-grandfather_of(X,Y).
+grandparent_of(X,Y):-grandmother_of(X,Y).
+
+%grandchildren
+grandchildren_of(X,Y):-grandparent_of(Y,X).
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
